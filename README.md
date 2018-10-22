@@ -30,6 +30,10 @@ sollen vom Raspberry PI / Arduino ausgelesen werden und drahtlos an
 die Android App übertragen werden. Die Android App soll dann aus
 Winkel und Entferung das entsprechende Sonar darstellen. 
 
+
+![alt text](https://screenshotscdn.firefoxusercontent.com/images/5a965c34-5c05-40ce-b867-32ef34d92c5d.png?download=Screenshot_2018-10-22%20Wireframe%20cc%20-%20minimal%20wireframing%20tool.png&sig=LoNmlUyR0dbJC7dsjbYelqMR47k "Logo Title Text 1")
+
+
 ## Risiken
 
  -Berechnung Radar / Anzeige Radar
