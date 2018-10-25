@@ -51,5 +51,7 @@ einen Punkt auf dem Radar abzuleiten. Anschließend muss dieser Punkt angemessen
 |          | Setup Ultraschallsensor und Servo |
 |          | Steuerung Sonar                   |
 |          | App und Bluetoth-Verbindung       |
-|          | Darstellung RSonar                |
+|          | Darstellung Sonar                 |
+|          | Verfassen Paper                   |
+|          | Vorbereitung Präsentation         |
 
