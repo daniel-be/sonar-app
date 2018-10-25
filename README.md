@@ -48,10 +48,10 @@ einen Punkt auf dem Radar abzuleiten. Anschließend muss dieser Punkt angemessen
 
 | Zeitraum | Abschnitt                         |
 |----------|-----------------------------------|
-|          | Setup Ultraschallsensor und Servo |
-|          | Steuerung Sonar                   |
-|          | App und Bluetoth-Verbindung       |
-|          | Darstellung Sonar                 |
-|          | Verfassen Paper                   |
-|          | Vorbereitung Präsentation         |
+|0,5 Wochen   | Setup Ultraschallsensor und Servo |
+|1 Woche   | Steuerung Sonar                   |
+|2 Wochen  | App und Bluetoth-Verbindung       |
+|1 Woche   | Darstellung Sonar                 |
+|2 Wochen   | Verfassen Paper                   |
+|1 Woche    | Vorbereitung Präsentation         |
 
