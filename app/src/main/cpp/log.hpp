@@ -8,10 +8,10 @@
 #include <android/log.h>
 
 #ifndef NDEBUG
-#define LOG_I(...) __android_log_print(ANDROID_LOG_INFO, __VA_ARGS__)
-#define LOG_W(...) __android_log_print(ANDROID_LOG_WARN, __VA_ARGS__)
+    #define LOG_I(...) __android_log_print(ANDROID_LOG_INFO, __VA_ARGS__)
+    #define LOG_W(...) __android_log_print(ANDROID_LOG_WARN, __VA_ARGS__)
 #else
-#define LOG_I(...)
+    #define LOG_I(...)
     #define LOG_W(...)
 #endif
 
