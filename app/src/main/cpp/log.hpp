@@ -8,11 +8,11 @@
 #include <android/log.h>
 
 #ifndef NDEBUG
-    #define LOG_I(...) __android_log_print(ANDROID_LOG_INFO, __VA_ARGS__)
-    #define LOG_W(...) __android_log_print(ANDROID_LOG_WARN, __VA_ARGS__)
+    #define LOG_I(...) ((void)__android_log_print(ANDROID_LOG_INFO, __VA_ARGS__))
+    #define LOG_W(...) ((void)__android_log_print(ANDROID_LOG_WARN, __VA_ARGS__))
 #else
-    #define LOG_I(...)
-    #define LOG_W(...)
+    #define LOG_I(...) ((void)0)
+    #define LOG_W(...) ((void)0)
 #endif
 
 #define LOG_E(...) __android_log_print(ANDROID_LOG_ERROR, __VA_ARGS__)
