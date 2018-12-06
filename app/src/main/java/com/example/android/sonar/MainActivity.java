@@ -18,6 +18,10 @@ public class MainActivity extends BlunoLibrary {
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
     private Button buttonScan;
 
+    private SonarGLSurfaceView sonarGLSurfaceView;
+
+    private SonarRenderer renderer;
+
     private int angle;
     private int distance;
 
@@ -36,11 +40,17 @@ public class MainActivity extends BlunoLibrary {
         this.getNeededPermissions();
         this.serialBegin(BAUD);                                                    //set the Uart Baudrate on BLE chip to 115200
 
-
+        this.sonarGLSurfaceView = findViewById(R.id.glvSonarView);
         this.buttonScan = this.findViewById(R.id.ConnectButton);                    //initial the button for scanning the BLE device
         this.buttonScan.setOnClickListener(v -> {
             MainActivity.this.buttonScanOnClickProcess();                                        //Alert Dialog for selecting the BLE device
         });
+
+        this.renderer = new SonarRenderer();
+        this.sonarGLSurfaceView.init(this.renderer);
+        this.renderer.setAngle(50);
+        this.renderer.setDistance(10);
+
     }
 
     @Override
@@ -53,8 +63,7 @@ public class MainActivity extends BlunoLibrary {
                     Log.d(TAG, "coarse location permission granted");
                 } else {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Funktionalität eingeschränkt");
-                    builder.setMessage("Es können keine Bluetooth-Geräte gefunden werden.");
+                    builder.setTitle(getString(R.string.constrained_fuctionality));
                     builder.setPositiveButton(android.R.string.ok, null);
                     builder.setOnDismissListener(dialog -> {
                     });
@@ -124,7 +133,9 @@ public class MainActivity extends BlunoLibrary {
     public void onSerialReceived(int distance, int angle) {                            //Once connection data received, this function will be called
         this.angle = angle;
         this.distance = distance;
-        //<TODO send Data to Sonar
+
+        this.renderer.setAngle(angle);
+        this.renderer.setDistance(distance);
     }
 
 
@@ -147,8 +158,8 @@ public class MainActivity extends BlunoLibrary {
     private void getNeededPermissions() {
         if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Die App benötigt Zugriff auf den Standort");
-            builder.setMessage("Für die Entdeckung von Bluethooth-Geräten wird der Standortzugriff benötigt");
+            builder.setTitle(getString(R.string.loction_permission_required));
+            builder.setMessage(getString(R.string.location_permission_required_message));
             builder.setPositiveButton(android.R.string.ok, null);
             builder.setOnDismissListener(dialog -> MainActivity.this.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION));
             builder.show();

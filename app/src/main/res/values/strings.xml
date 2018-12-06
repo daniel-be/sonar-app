@@ -21,4 +21,7 @@
     <string name="isDisconnecting">isDisconnecting</string>
     <string name="please_select_DFRobot">\"Please select DFRobot devices\"</string>
     <string name="connect_to_sonar">Connect to Sonar</string>
+    <string name="constrained_fuctionality">Funktionalität eingeschränkt</string>
+    <string name="loction_permission_required">Die App benötigt Zugriff auf den Standort</string>
+    <string name="location_permission_required_message">Für die Entdeckung von Bluethooth-Geräten wird der Standortzugriff benötigt</string>
 </resources>
