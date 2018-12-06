@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.sonar.R;
+import com.example.android.sonar.constants.AppConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +53,8 @@ public abstract class BlunoLibrary extends Activity {
     private final Handler mHandler = new Handler();
     public connectionStateEnum mConnectionState = connectionStateEnum.isNull;
     public boolean mConnected = false;
-    BluetoothLeService mBluetoothLeService;
+    AlertDialog mScanDeviceDialog;
+    private BluetoothLeService mBluetoothLeService;
     private final Runnable mConnectingOverTimeRunnable = () -> {
         if (BlunoLibrary.this.mConnectionState == connectionStateEnum.isConnecting)
             BlunoLibrary.this.mConnectionState = connectionStateEnum.isToScan;
@@ -84,7 +86,6 @@ public abstract class BlunoLibrary extends Activity {
             BlunoLibrary.this.mBluetoothLeService = null;
         }
     };
-    AlertDialog mScanDeviceDialog;
     private int mBaudrate = 115200;    //set the default baud rate to 115200
     private String mBaudrateBuffer = "AT+CURRUART=" + this.mBaudrate + "\r\n";
     private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
@@ -148,7 +149,6 @@ public abstract class BlunoLibrary extends Activity {
         }
     };
     private LeDeviceListAdapter mLeDeviceListAdapter = null;
-
     // Device scan callback.
     private final ScanCallback leScanCallback = new ScanCallback() {
         @Override
@@ -179,7 +179,6 @@ public abstract class BlunoLibrary extends Activity {
     private String mDeviceName;
     private String mDeviceAddress;
 
-
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
@@ -189,6 +188,9 @@ public abstract class BlunoLibrary extends Activity {
         return intentFilter;
     }
 
+    public BluetoothLeService getBluetoothLeService() {
+        return mBluetoothLeService;
+    }
 
     public abstract void onConectionStateChange(connectionStateEnum theconnectionStateEnum);
 
@@ -220,6 +222,12 @@ public abstract class BlunoLibrary extends Activity {
         // Initializes list view adapter.
         this.mLeDeviceListAdapter = new LeDeviceListAdapter();
         // Initializes and show the scan Device Dialog
+        showScanDeviceDialog();
+
+
+    }
+
+    private void showScanDeviceDialog() {
         this.mScanDeviceDialog = new AlertDialog.Builder(this.mainContext)
                 .setTitle("BLE Device Scan...").setAdapter(this.mLeDeviceListAdapter, (dialog, which) -> {
                     final BluetoothDevice device = BlunoLibrary.this.mLeDeviceListAdapter.getDevice(which);
@@ -260,8 +268,6 @@ public abstract class BlunoLibrary extends Activity {
 
                     BlunoLibrary.this.scanLeDevice(false);
                 }).create();
-
-
     }
 
     public void onResumeProcess() {
@@ -385,13 +391,14 @@ public abstract class BlunoLibrary extends Activity {
         if (enable) {
             // Stops scanning after a pre-defined scan period.
 
+
             System.out.println("mBluetoothAdapter.startLeScan");
 
             if (this.mLeDeviceListAdapter != null) {
                 this.mLeDeviceListAdapter.clear();
                 this.mLeDeviceListAdapter.notifyDataSetChanged();
             }
-
+            addSonarBlunoToList(AppConstants.SONAR_BLUNO_ADDRESS);
             if (!this.mScanning) {
                 this.mScanning = true;
 
@@ -409,6 +416,14 @@ public abstract class BlunoLibrary extends Activity {
 
             }
         }
+    }
+
+    //TODO move out of BlunoLibary
+    private void addSonarBlunoToList(String remoteDeviceAdress) {
+
+        BluetoothDevice sonarDevice = mBluetoothAdapter.getRemoteDevice(AppConstants.SONAR_BLUNO_ADDRESS);
+        mLeDeviceListAdapter.addDevice(sonarDevice);
+        mLeDeviceListAdapter.notifyDataSetChanged();
     }
 
     private void getGattServices(List<BluetoothGattService> gattServices) {

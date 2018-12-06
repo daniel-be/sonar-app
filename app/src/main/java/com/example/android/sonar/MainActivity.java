@@ -43,7 +43,7 @@ public class MainActivity extends BlunoLibrary {
         this.sonarGLSurfaceView = findViewById(R.id.glvSonarView);
         this.buttonScan = this.findViewById(R.id.ConnectButton);                    //initial the button for scanning the BLE device
         this.buttonScan.setOnClickListener(v -> {
-            MainActivity.this.buttonScanOnClickProcess();                                        //Alert Dialog for selecting the BLE device
+            buttonScanOnClickProcess();                                        //Alert Dialog for selecting the BLE device
         });
 
         this.renderer = new SonarRenderer();
@@ -163,6 +163,23 @@ public class MainActivity extends BlunoLibrary {
             builder.setPositiveButton(android.R.string.ok, null);
             builder.setOnDismissListener(dialog -> MainActivity.this.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION));
             builder.show();
+        }
+    }
+
+    //TODO maybe remove this one
+    protected void connectToSonarFixAdress(String address) {
+        getBluetoothLeService().connect(address);
+
+
+        if (getBluetoothLeService().connect(address)) {
+            Log.d(TAG, "Connect request success");
+            mConnectionState = connectionStateEnum.isConnecting;
+            onConectionStateChange(mConnectionState);
+            System.out.println("Direct BLE Connection");
+        } else {
+            Log.d(TAG, "Connect request fail");
+            mConnectionState = connectionStateEnum.isToScan;
+            onConectionStateChange(mConnectionState);
         }
     }
 
