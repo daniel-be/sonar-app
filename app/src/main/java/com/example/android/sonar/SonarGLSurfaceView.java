@@ -3,15 +3,14 @@ package com.example.android.sonar;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
-import android.util.AttributeSet;
 
 public class SonarGLSurfaceView extends GLSurfaceView {
-    public SonarGLSurfaceView(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet);
-
+    public SonarGLSurfaceView(Context context, GLSurfaceView.Renderer renderer) {
+        super(context);
+        init(renderer);
     }
 
-    public void init(GLSurfaceView.Renderer renderer) {
+    private void init(GLSurfaceView.Renderer renderer) {
         this.getHolder().setFormat(PixelFormat.TRANSLUCENT);
         setRenderer(renderer);
     }
