@@ -5,13 +5,23 @@
 #ifndef SONAR_APP_ENGINE_HPP
 #define SONAR_APP_ENGINE_HPP
 
-constexpr char* LOG_TAG = "engine";
+#include <string>
 
-namespace Engine
+#include "shader.hpp"
+
+class Engine
 {
-    void draw_frame(int distance, int angle);
+public:
+    Engine();
     void init();
-    void setup_graphics(unsigned int width, unsigned int height);
+    void change(unsigned int width, unsigned int height);
+    void draw_frame(int distance, int angle);
+    ~Engine();
+
+private:
+    static const std::string vertex_shader_source;
+    static const std::string fragment_shader_source;
+    Shader shader;
 };
 
 #endif //SONAR_APP_ENGINE_HPP
