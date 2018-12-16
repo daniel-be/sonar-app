@@ -13,6 +13,7 @@ public:
     Shader(std::string vertex_shader_src, std::string fragment_shader_src);
     void bind() const;
     void unbind() const;
+    int get_attribute_location(std::string name) const;
     ~Shader();
 
 private:

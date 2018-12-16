@@ -8,6 +8,7 @@
 #include <string>
 
 #include "shader.hpp"
+#include "buffer.hpp"
 
 class Engine
 {
@@ -21,6 +22,8 @@ public:
 private:
     static const std::string vertex_shader_source;
     static const std::string fragment_shader_source;
+    static const float vertices[];
+    Buffer<float> vertex_buffer;
     Shader shader;
 };
 

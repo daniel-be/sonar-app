@@ -21,7 +21,8 @@ add_library( # Sets the name of the library.
         src/main/cpp/engine.cpp
         src/main/cpp/buffer.cpp
         src/main/cpp/utility.cpp
-        src/main/cpp/shader.cpp)
+        src/main/cpp/shader.cpp
+        src/main/cpp/vertex_attribute.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

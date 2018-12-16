@@ -25,6 +25,11 @@ void Shader::unbind() const
     GL_CALL(glUseProgram(0));
 }
 
+int Shader::get_attribute_location(std::string name) const
+{
+    GL_CALL(return glGetAttribLocation(this->gl_program_id, name.c_str()));
+}
+
 unsigned int Shader::load_shader(unsigned int shader_type, const char* const shader_src)
 {
     GL_CALL(unsigned int shader = glCreateShader(shader_type));
