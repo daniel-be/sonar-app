@@ -8,6 +8,9 @@
 #include "log.h"
 
 template <typename T>
+Buffer<T>::Buffer() : gl_id(0), gl_target(0) {}
+
+template <typename T>
 Buffer<T>::Buffer(const T* data, unsigned int gl_target, unsigned long int size, unsigned int usage)
         : gl_id(0), gl_target(gl_target)
 {

@@ -12,6 +12,7 @@ public class SonarGLSurfaceView extends GLSurfaceView {
 
     private void init(GLSurfaceView.Renderer renderer) {
         this.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        setEGLContextClientVersion(2);
         setRenderer(renderer);
     }
 }

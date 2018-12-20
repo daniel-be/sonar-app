@@ -13,6 +13,7 @@ template <typename T>
 class Buffer
 {
 public:
+    Buffer();
     Buffer(const T* data, unsigned int gl_target, unsigned long int size, unsigned int usage);
     void bind() const;
     void unbind() const;

@@ -1,5 +1,8 @@
-#include <jni.h>
 #include <string>
+#include <memory>
+
+#include <jni.h>
+#include <GLES2/gl2.h>
 
 #include "engine.hpp"
 

@@ -7,17 +7,13 @@
 #include "log.h"
 #include "shader.hpp"
 
-Shader::Shader(std::string vertex_shader_src, std::string fragment_shader_src)
-    : gl_vertex_shader_id(0), gl_fragment_shader_id(0), gl_program_id(0)
+Shader::Shader() : gl_vertex_shader_id(0), gl_fragment_shader_id(0), gl_program_id(0) { }
+
+Shader::Shader(const std::string &vertex_shader_src, const std::string &fragment_shader_src)
 {
     this->gl_vertex_shader_id = load_shader(GL_VERTEX_SHADER, vertex_shader_src.c_str());
     this->gl_fragment_shader_id = load_shader(GL_FRAGMENT_SHADER, fragment_shader_src.c_str());
     this->gl_program_id = make_program();
-}
-
-void Shader::bind() const
-{
-    GL_CALL(glUseProgram(this->gl_program_id));
 }
 
 void Shader::unbind() const
@@ -25,7 +21,12 @@ void Shader::unbind() const
     GL_CALL(glUseProgram(0));
 }
 
-int Shader::get_attribute_location(std::string name) const
+void Shader::bind() const
+{
+    GL_CALL(glUseProgram(this->gl_program_id));
+}
+
+int Shader::get_attribute_location(const std::string name) const
 {
     GL_CALL(return glGetAttribLocation(this->gl_program_id, name.c_str()));
 }
