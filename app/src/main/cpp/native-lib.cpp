@@ -21,7 +21,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL Java_com_example_android_sonar_SonarJNI_draw(JNIEnv* env, jclass type,
-                                                                        jint distance, jint angle)
+                                                                        jfloat distance, jint angle)
     {
         engine.draw_frame(distance, angle);
     }

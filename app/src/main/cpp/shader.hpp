@@ -15,6 +15,8 @@ public:
     void bind() const;
     void unbind() const;
     int get_attribute_location(const std::string name) const;
+    int get_uniform_location(const std::string name) const;
+    void set_uniform_matrix4fv_value(int location, const float* matrix) const;
     ~Shader();
 
 private:
