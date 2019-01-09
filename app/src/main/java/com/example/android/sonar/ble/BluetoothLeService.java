@@ -39,8 +39,6 @@ import java.util.List;
 import java.util.Objects;
 
 
-
-
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
  * given Bluetooth LE device.
@@ -76,6 +74,7 @@ public class BluetoothLeService extends Service {
     private BluetoothAdapter mBluetoothAdapter;
     //Show that Characteristic is writing or not.
     private boolean mIsWritingCharacteristic = false;
+
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.

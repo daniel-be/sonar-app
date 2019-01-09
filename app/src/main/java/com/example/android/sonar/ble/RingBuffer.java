@@ -25,6 +25,7 @@ public class RingBuffer<T> {
         return this.count;
     }
 
+    
     public void clear() {
         this.count = 0;
     }
