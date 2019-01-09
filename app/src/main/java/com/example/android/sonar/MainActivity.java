@@ -30,8 +30,10 @@ public class MainActivity extends BlunoLibrary {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_sonar);
-
-
+//        ============Daniel============
+     /*   setContentView(R.layout.main_layout);
+        LinearLayout ll = findViewById(R.id.main_layout);*/
+//        ===============END Daniel ============
         this.angle = 0;
         this.distance = 0;
 
@@ -46,7 +48,21 @@ public class MainActivity extends BlunoLibrary {
             buttonScanOnClickProcess();                                        //Alert Dialog for selecting the BLE device
         });
 
+
         this.renderer = new SonarRenderer();
+
+//        =============Daniel=========
+      /*  SonarGLSurfaceView glView = new SonarGLSurfaceView(this, this.renderer);
+        Button btn = new Button(this);
+        btn.setText("raise");
+        btn.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        BtnOnClickListener clickListener = new BtnOnClickListener(this.renderer);
+        btn.setOnClickListener(clickListener);
+        ll.addView(btn);
+        ll.addView(glView);*/
+
+//       ==============END Daniel===========
+
         this.sonarGLSurfaceView.init(this.renderer);
         this.renderer.setAngle(50);
         this.renderer.setDistance(10);

@@ -1,15 +1,17 @@
 //
-// Created by Daniel on 04.12.2018.
+// Created by daniel on 12/28/2018.
 //
 
 #ifndef SONAR_APP_VERTEX_HPP
 #define SONAR_APP_VERTEX_HPP
 
-#include <GLES2/gl2.h>
+#include <array>
 
 struct Vertex
 {
-    float position[2];
+    std::array<float, 4> position;
+    std::array<float, 4> color;
+    float distance;
 };
 
 #endif //SONAR_APP_VERTEX_HPP
