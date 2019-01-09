@@ -4,6 +4,8 @@
 #include <jni.h>
 #include <GLES2/gl2.h>
 
+#include <jni.h>
+
 #include "engine.hpp"
 
 Engine engine;
