@@ -7,7 +7,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.example.android.sonar.ble.BlunoLibrary;
 
@@ -29,10 +31,10 @@ public class MainActivity extends BlunoLibrary {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_sonar);
+//        this.setContentView(R.layout.activity_sonar);
 //        ============Daniel============
-     /*   setContentView(R.layout.main_layout);
-        LinearLayout ll = findViewById(R.id.main_layout);*/
+        setContentView(R.layout.main_layout);
+        LinearLayout ll = findViewById(R.id.main_layout);
 //        ===============END Daniel ============
         this.angle = 0;
         this.distance = 0;
@@ -42,30 +44,37 @@ public class MainActivity extends BlunoLibrary {
         this.getNeededPermissions();
         this.serialBegin(BAUD);                                                    //set the Uart Baudrate on BLE chip to 115200
 
-        this.sonarGLSurfaceView = findViewById(R.id.glvSonarView);
-        this.buttonScan = this.findViewById(R.id.ConnectButton);                    //initial the button for scanning the BLE device
-        this.buttonScan.setOnClickListener(v -> {
-            buttonScanOnClickProcess();                                        //Alert Dialog for selecting the BLE device
-        });
+//        this.sonarGLSurfaceView = findViewById(R.id.glvSonarView);
+//        this.buttonScan = this.findViewById(R.id.ConnectButton);                    //initial the button for scanning the BLE device
+//        this.buttonScan.setOnClickListener(v -> {
+//            buttonScanOnClickProcess();                                        //Alert Dialog for selecting the BLE device
+//        });
 
 
         this.renderer = new SonarRenderer();
-
+//        this.sonarGLSurfaceView.init(this.renderer);
+        this.renderer.setAngle(0);
+        this.renderer.setDistance(0);
 //        =============Daniel=========
-      /*  SonarGLSurfaceView glView = new SonarGLSurfaceView(this, this.renderer);
+
+
+        SonarGLSurfaceView glView = new SonarGLSurfaceView(this, this.renderer);
+//        glView.init(this.renderer);
         Button btn = new Button(this);
         btn.setText("raise");
         btn.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        BtnOnClickListener clickListener = new BtnOnClickListener(this.renderer);
-        btn.setOnClickListener(clickListener);
+        btn.setOnClickListener(c -> {
+            this.renderer.setAngle(++this.angle);
+            this.renderer.setDistance(this.angle % 2);
+
+
+            System.out.println(angle);
+        });
         ll.addView(btn);
-        ll.addView(glView);*/
+        ll.addView(glView);
 
 //       ==============END Daniel===========
 
-        this.sonarGLSurfaceView.init(this.renderer);
-        this.renderer.setAngle(50);
-        this.renderer.setDistance(10);
 
     }
 
@@ -144,7 +153,6 @@ public class MainActivity extends BlunoLibrary {
     }
 
 
-    // maybe move tp Sonar View
     @Override
     public void onSerialReceived(int distance, int angle) {                            //Once connection data received, this function will be called
         this.angle = angle;
@@ -182,21 +190,5 @@ public class MainActivity extends BlunoLibrary {
         }
     }
 
-    //TODO maybe remove this one
-    protected void connectToSonarFixAdress(String address) {
-        getBluetoothLeService().connect(address);
-
-
-        if (getBluetoothLeService().connect(address)) {
-            Log.d(TAG, "Connect request success");
-            mConnectionState = connectionStateEnum.isConnecting;
-            onConectionStateChange(mConnectionState);
-            System.out.println("Direct BLE Connection");
-        } else {
-            Log.d(TAG, "Connect request fail");
-            mConnectionState = connectionStateEnum.isToScan;
-            onConectionStateChange(mConnectionState);
-        }
-    }
 
 }
