@@ -19,15 +19,16 @@ void Engine::init()
     Utility::print_gl_version();
     this->shader = std::shared_ptr<Shader>{ new Shader{ this->vertex_shader_src, this->fragment_shader_src } };
     this->generate_triangle_vertices();
-    int position_handle = this->shader->get_attribute_location("vPosition");
-    int color_handle = this->shader->get_attribute_location("vColor");
-    int dist_handle = this->shader->get_attribute_location("vDist");
+    int position_handle = this->shader->get_attribute_location("a_position");
+    int color_handle = this->shader->get_attribute_location("a_color");
+    int dist_handle = this->shader->get_attribute_location("a_dist");
     this->vertex_buffer->bind();
     Vertex_attribute<Vertex> vertex_attribute_pos{ static_cast<unsigned int>(position_handle), 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), offsetof(Vertex, position) };
     Vertex_attribute<Vertex> vertex_attribute_color{ static_cast<unsigned int>(color_handle), 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), offsetof(Vertex, color) };
     Vertex_attribute<Vertex> vertex_attribute_dist{ static_cast<unsigned int>(dist_handle), 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), offsetof(Vertex, distance) };
     this->vertex_buffer->add_vertex_attribute(vertex_attribute_pos);
     this->vertex_buffer->add_vertex_attribute(vertex_attribute_color);
+    this->vertex_buffer->add_vertex_attribute(vertex_attribute_dist);
     this->vertex_buffer->unbind();
     GL_CALL(glEnable(GL_BLEND));
     GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
@@ -35,8 +36,15 @@ void Engine::init()
 
 void Engine::change(unsigned int width, unsigned int height)
 {
-    GL_CALL(glViewport(0, 0, width, height));
-    this->set_proj_matrix(width, height);
+    GL_CALL(glViewport(0, 0, height * 2, height));
+    float ratio = static_cast<float>(height) / static_cast<float>(width);
+    this->set_proj_matrix(-ratio, ratio, -1.0f, 1.0f, 1, 7);
+    int width_handle = this->shader->get_uniform_location("width");
+    int height_handle = this->shader->get_uniform_location("height");
+    this->shader->bind();
+    this->shader->set_uniform_1f_value(width_handle, width);
+    this->shader->set_uniform_1f_value(height_handle, height);
+    this->shader->unbind();
 }
 
 void Engine::draw_frame(float dist, int angle)
@@ -47,11 +55,10 @@ void Engine::draw_frame(float dist, int angle)
     this->opengl_draw();
 }
 
-void Engine::set_proj_matrix(unsigned int width, unsigned int height) const
+void Engine::set_proj_matrix(float l, float r, float b, float t, float n, float f) const
 {
-    float ratio = static_cast<float>(height) / static_cast<float>(width);
     float proj_matrix[16];
-    proj_matrix[0] = ratio;
+    proj_matrix[0] = r;
     proj_matrix[1] = 0;
     proj_matrix[2] = 0;
     proj_matrix[3] = 0;
@@ -70,9 +77,10 @@ void Engine::set_proj_matrix(unsigned int width, unsigned int height) const
     proj_matrix[13] = 0;
     proj_matrix[14] = 0;
     proj_matrix[15] = 1;
-    int proj_matrix_handle = this->shader->get_uniform_location("vOrthoMatrix");
+    int proj_matrix_handle = this->shader->get_uniform_location("ortho_matrix");
     this->shader->bind();
     this->shader->set_uniform_matrix4fv_value(proj_matrix_handle, proj_matrix);
+    this->shader->unbind();
 }
 
 void Engine::generate_triangle_vertices()

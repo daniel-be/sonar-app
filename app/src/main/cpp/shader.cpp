@@ -41,6 +41,11 @@ void Shader::set_uniform_matrix4fv_value(int location, const float* matrix) cons
     GL_CALL(glUniformMatrix4fv(location, 1, GL_FALSE, matrix));
 }
 
+void Shader::set_uniform_1f_value(int location, const float value) const
+{
+    GL_CALL(glUniform1f(location, value));
+}
+
 unsigned int Shader::load_shader(unsigned int shader_type, const char* const shader_src)
 {
     GL_CALL(unsigned int shader = glCreateShader(shader_type));

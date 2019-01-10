@@ -30,31 +30,43 @@ private:
     static constexpr float MAX_DIST = 40.0f;
     std::chrono::steady_clock::time_point triangle_start_points[Engine::DEGREES];
     const std::string vertex_shader_src =
-            "uniform mat4 vOrthoMatrix;\n"
-            "attribute vec4 vPosition;\n"
-            "attribute vec4 vColor;\n"
-            "attribute float vDist;\n"
-            "varying vec4 fColor;\n"
-            "varying float fDist;\n"
+            "uniform mat4 ortho_matrix;\n"
+            "attribute vec4 a_position;\n"
+            "attribute vec4 a_color;\n"
+            "attribute float a_dist;\n"
+            "varying vec4 v_color;\n"
+            "varying float v_dist;\n"
             "void main() {\n"
-            "fColor = vColor;\n"
-            "fDist = vDist;\n"
-            "gl_Position = vOrthoMatrix * vPosition;\n"
+            "v_color = a_color;\n"
+            "v_dist = a_dist;\n"
+            "gl_Position = ortho_matrix * a_position;\n"
             "}\n";
 
     const std::string fragment_shader_src =
             "precision mediump float;\n"
-            "varying vec4 fColor;\n"
-            "varying float fDist;\n"
+            "uniform float width;\n"
+            "uniform float height;\n"
+            "varying vec4 v_color;\n"
+            "varying float v_dist;\n"
             "void main() {\n"
-            "float dist = fDist;\n"
-            "gl_FragColor = fColor + (fDist-fDist);\n"
+            "float dist = v_dist;\n"
+            "float rad = height * (dist / 50.0);\n"
+            "vec4 width_center = vec4(width / 2.0, 0.0, 0.0, 1.0);\n"
+            "if (rad > distance(width_center, gl_FragCoord)) {\n"
+            "vec4 color = v_color;\n"
+            "color.r = 0.0;\n"
+            "color.g = 1.0;\n"
+            "gl_FragColor = color;\n"
+            "}\n"
+            "else {\n"
+            "gl_FragColor = v_color;\n"
+            "}\n"
             "}\n";
 
     std::shared_ptr<Buffer<Triangle, Vertex>> vertex_buffer;
     std::shared_ptr<Shader> shader;
 
-    void set_proj_matrix(unsigned int width, unsigned int height) const;
+    void set_proj_matrix(float l, float r, float b, float t, float n, float f) const;
     void generate_triangle_vertices();
     void opengl_draw() const;
     void fade_triangles() const;
