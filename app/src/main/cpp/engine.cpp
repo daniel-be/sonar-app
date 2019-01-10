@@ -42,7 +42,7 @@ void Engine::change(unsigned int width, unsigned int height)
 void Engine::draw_frame(float dist, int angle)
 {
     this->reset_time_point(angle);
-    if (dist > 0.0f) this->set_distance(angle, dist);
+    this->set_distance(angle, dist);
     this->fade_triangles();
     this->opengl_draw();
 }
@@ -170,7 +170,17 @@ void Engine::reset_time_point(int index)
 
 void Engine::set_distance(int angle, float dist) const
 {
-    float swap_color[] = { 1.0, 0.0 };
+    float swap_color[2];
+    if (dist > 0)
+    {
+        swap_color[0] = 1.0f;
+        swap_color[1] = 0.0f;
+    }
+    else
+    {
+        swap_color[0] = 0.0f;
+        swap_color[1] = 1.0f;
+    }
     this->vertex_buffer->bind();
     for (int i = 0; i < 3; i++) {
         this->vertex_buffer->replace_data(angle * sizeof(Triangle) + i * sizeof(Vertex) + offsetof(Vertex, color), sizeof(swap_color), &swap_color);
