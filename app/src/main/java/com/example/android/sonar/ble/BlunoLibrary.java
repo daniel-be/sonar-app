@@ -418,7 +418,6 @@ public abstract class BlunoLibrary extends Activity {
         }
     }
 
-    //TODO move out of BlunoLibary
     private void addSonarBlunoToList(String remoteDeviceAdress) {
 
         BluetoothDevice sonarDevice = mBluetoothAdapter.getRemoteDevice(AppConstants.SONAR_BLUNO_ADDRESS);
