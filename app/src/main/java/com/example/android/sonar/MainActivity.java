@@ -7,9 +7,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.android.sonar.ble.BlunoLibrary;
 
@@ -19,6 +18,7 @@ public class MainActivity extends BlunoLibrary {
     private static final String TAG = "MainActivity";
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
     private Button buttonScan;
+    private TextView angleTextView, distanceTextView;
 
     private SonarGLSurfaceView sonarGLSurfaceView;
 
@@ -32,7 +32,10 @@ public class MainActivity extends BlunoLibrary {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_sonar);
-        LinearLayout ll = findViewById(R.id.fullscreen_content_controls);
+
+
+        this.angleTextView = findViewById(R.id.angleTextView);
+        this.distanceTextView = findViewById(R.id.distanceTextView);
         this.angle = 0;
         this.distance = 0;
 
@@ -51,19 +54,6 @@ public class MainActivity extends BlunoLibrary {
         this.sonarGLSurfaceView.init(this.renderer);
         this.renderer.setAngle(angle);
         this.renderer.setDistance(distance);
-
-        Button btn = new Button(this);
-        btn.setText("raise");
-        btn.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        btn.setOnClickListener(c -> {
-            this.renderer.setAngle(++this.angle);
-            this.renderer.setDistance(this.angle % 2);
-
-
-            System.out.println(angle);
-        });
-        ll.addView(btn);
-
 
     }
 
@@ -149,6 +139,12 @@ public class MainActivity extends BlunoLibrary {
 
         this.renderer.setAngle(angle);
         this.renderer.setDistance(distance);
+
+        if (this.angleTextView != null && this.distanceTextView != null) {
+            this.angleTextView.setText(String.format(getString(R.string.angle), angle));
+            this.distanceTextView.setText((String.format(getString(R.string.distance), distance)));
+        }
+
     }
 
 

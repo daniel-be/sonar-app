@@ -24,4 +24,6 @@
     <string name="constrained_fuctionality">Funktionalität eingeschränkt</string>
     <string name="loction_permission_required">Die App benötigt Zugriff auf den Standort</string>
     <string name="location_permission_required_message">Für die Entdeckung von Bluethooth-Geräten wird der Standortzugriff benötigt</string>
+    <string name="distance">Distance: "%1$d"</string>
+    <string name="angle">Angle: "%1$d"</string>
 </resources>
