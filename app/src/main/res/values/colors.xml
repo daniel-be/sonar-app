@@ -3,6 +3,10 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="green">#00ff00</color>
+    <color name="transparentWhite20">#20FFFFFF</color>
+    <color name="transparentWhite60">#60FFFFFF</color>
+
 
     <color name="black_overlay">#66000000</color>
 </resources>

@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:keepScreenOn="true"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
     <com.example.android.sonar.SonarGLSurfaceView
         android:id="@+id/glvSonarView"
         android:layout_width="match_parent"
@@ -25,32 +21,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:background="#80000000"
+        android:background="@color/transparentWhite20"
         android:gravity="bottom"
         android:orientation="horizontal"
         tools:ignore="UselessParent">
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/ConnectButton"
-            style="?metaButtonBarButtonStyle"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="200sp"
             android:layout_height="wrap_content"
-
-            android:text="@string/connect_to_sonar" />
+            android:layout_marginStart="20sp"
+            android:layout_marginEnd="40sp"
+            android:text="@string/connect_to_sonar"
+            android:textColor="@color/green"
+            app:backgroundTint="@color/transparentWhite60" />
 
         <TextView
             android:id="@+id/angleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/angle" />
+            android:text="@string/angle"
+            android:textColor="@color/green" />
 
         <TextView
             android:id="@+id/distanceTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/distance" />
+            android:text="@string/distance"
+            android:textColor="@color/green" />
 
     </LinearLayout>
 

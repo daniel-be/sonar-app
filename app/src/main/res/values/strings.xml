@@ -13,7 +13,7 @@
     <string name="unknown_service">Unknown service</string>
 
 
-    <string name="connected">Connected</string>
+    <string name="connected">Disconnect</string>
     <string name="connecting">Connecting</string>
     <string name="scan">Scan</string>
 
@@ -24,6 +24,6 @@
     <string name="constrained_fuctionality">Funktionalität eingeschränkt</string>
     <string name="loction_permission_required">Die App benötigt Zugriff auf den Standort</string>
     <string name="location_permission_required_message">Für die Entdeckung von Bluethooth-Geräten wird der Standortzugriff benötigt</string>
-    <string name="distance">Distance: "%1$d"</string>
-    <string name="angle">Angle: "%1$d"</string>
+    <string name="distance">Distance: %1$d cm</string>
+    <string name="angle">Angle: %1$d °</string>
 </resources>

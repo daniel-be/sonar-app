@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.android.sonar.ble.BlunoLibrary;
@@ -17,7 +17,7 @@ public class MainActivity extends BlunoLibrary {
     public static final int BAUD = 115200;
     private static final String TAG = "MainActivity";
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-    private Button buttonScan;
+    private AppCompatButton buttonScan;
     private TextView angleTextView, distanceTextView;
 
     private SonarGLSurfaceView sonarGLSurfaceView;
@@ -38,6 +38,8 @@ public class MainActivity extends BlunoLibrary {
         this.distanceTextView = findViewById(R.id.distanceTextView);
         this.angle = 0;
         this.distance = 0;
+        this.angleTextView.setText(String.format(getString(R.string.angle), angle));
+        this.distanceTextView.setText((String.format(getString(R.string.distance), distance)));
 
         this.onCreateProcess();                                                        //onCreate Process by BlunoLibrary
 
