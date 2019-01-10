@@ -6,7 +6,6 @@
 
 #include <GLES2/gl2.h>
 
-#include "log.h"
 #include "engine.hpp"
 #include "utility.hpp"
 #include "vertex_attribute.hpp"
@@ -37,13 +36,12 @@ void Engine::init()
 void Engine::change(unsigned int width, unsigned int height)
 {
     GL_CALL(glViewport(0, 0, height * 2, height));
-    float ratio = static_cast<float>(height) / static_cast<float>(width);
-    this->set_proj_matrix(-ratio, ratio, -1.0f, 1.0f, 1, 7);
-    int width_handle = this->shader->get_uniform_location("width");
-    int height_handle = this->shader->get_uniform_location("height");
+    float aspect = static_cast<float>(height) / static_cast<float>(width);
+    this->set_proj_matrix(aspect);
+    int resolution_handle = this->shader->get_uniform_location("resolution");
+    float resolution[] = { static_cast<float>(width), static_cast<float>(height) };
     this->shader->bind();
-    this->shader->set_uniform_1f_value(width_handle, width);
-    this->shader->set_uniform_1f_value(height_handle, height);
+    this->shader->set_uniform_2fv_value(resolution_handle, resolution);
     this->shader->unbind();
 }
 
@@ -55,10 +53,10 @@ void Engine::draw_frame(float dist, int angle)
     this->opengl_draw();
 }
 
-void Engine::set_proj_matrix(float l, float r, float b, float t, float n, float f) const
+void Engine::set_proj_matrix(float aspect) const
 {
     float proj_matrix[16];
-    proj_matrix[0] = r;
+    proj_matrix[0] = aspect;
     proj_matrix[1] = 0;
     proj_matrix[2] = 0;
     proj_matrix[3] = 0;
@@ -157,7 +155,7 @@ void Engine::opengl_draw() const
 
 void Engine::fade_triangles() const
 {
-    float new_alpha = 0.0f;
+    float new_alpha;
     this->vertex_buffer->bind();
     for (int i = 0; i < Engine::DEGREES; i++) {
         std::chrono::milliseconds duration =
@@ -178,20 +176,8 @@ void Engine::reset_time_point(int index)
 
 void Engine::set_distance(int angle, float dist) const
 {
-    float swap_color[2];
-    if (dist > 0)
-    {
-        swap_color[0] = 1.0f;
-        swap_color[1] = 0.0f;
-    }
-    else
-    {
-        swap_color[0] = 0.0f;
-        swap_color[1] = 1.0f;
-    }
     this->vertex_buffer->bind();
     for (int i = 0; i < 3; i++) {
-        this->vertex_buffer->replace_data(angle * sizeof(Triangle) + i * sizeof(Vertex) + offsetof(Vertex, color), sizeof(swap_color), &swap_color);
         this->vertex_buffer->replace_data(angle * sizeof(Triangle) + i * sizeof(Vertex) + offsetof(Vertex, distance), sizeof(dist), &dist);
     }
     this->vertex_buffer->unbind();

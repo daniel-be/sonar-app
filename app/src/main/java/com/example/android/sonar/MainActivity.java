@@ -82,7 +82,6 @@ public class MainActivity extends BlunoLibrary {
 
     protected void onResume() {
         super.onResume();
-        System.out.println("BlUNOActivity onResume");
         this.onResumeProcess();                                                        //onResume Process by BlunoLibrary
     }
 

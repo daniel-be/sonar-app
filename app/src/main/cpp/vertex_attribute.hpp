@@ -5,8 +5,6 @@
 #ifndef SONAR_APP_VERTEX_ATTRIBUTE_HPP
 #define SONAR_APP_VERTEX_ATTRIBUTE_HPP
 
-#include <string>
-
 #include <GLES2/gl2.h>
 
 #include "log.h"

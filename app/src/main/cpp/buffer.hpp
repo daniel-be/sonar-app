@@ -10,8 +10,6 @@
 #include <vector>
 
 #include "vertex_attribute.hpp"
-#include "utility.hpp"
-#include "log.h"
 
 template <typename T1, typename T2>
 class Buffer

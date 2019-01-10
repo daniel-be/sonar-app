@@ -27,7 +27,6 @@ private:
     static constexpr float RADIUS = 2.0f;
     static constexpr float CIRCLE_CENTER_X = 0.0f;
     static constexpr float CIRCLE_CENTER_Y = -1.0f;
-    static constexpr float MAX_DIST = 40.0f;
     std::chrono::steady_clock::time_point triangle_start_points[Engine::DEGREES];
     const std::string vertex_shader_src =
             "uniform mat4 ortho_matrix;\n"
@@ -44,21 +43,27 @@ private:
 
     const std::string fragment_shader_src =
             "precision mediump float;\n"
-            "uniform float width;\n"
-            "uniform float height;\n"
+            "uniform vec2 resolution;\n"
             "varying vec4 v_color;\n"
             "varying float v_dist;\n"
             "void main() {\n"
             "float dist = v_dist;\n"
-            "float rad = height * (dist / 50.0);\n"
-            "vec4 width_center = vec4(width / 2.0, 0.0, 0.0, 1.0);\n"
-            "if (rad > distance(width_center, gl_FragCoord)) {\n"
+            "if (dist > 0.0) {\n"
+            "float rad = resolution.y * (dist / 50.0);\n"
+            "vec4 width_center = vec4(resolution.x / 2.0, 0.0, 0.0, 1.0);\n"
+            "if (rad < distance(width_center, gl_FragCoord)) {\n"
             "vec4 color = v_color;\n"
-            "color.r = 0.0;\n"
-            "color.g = 1.0;\n"
+            "color.r = 1.0;\n"
+            "color.g = 0.0;\n"
             "gl_FragColor = color;\n"
             "}\n"
-            "else {\n"
+            "else\n"
+            "{\n"
+            "gl_FragColor = v_color;\n"
+            "}\n"
+            "}\n"
+            "else\n"
+            "{\n"
             "gl_FragColor = v_color;\n"
             "}\n"
             "}\n";
@@ -66,7 +71,7 @@ private:
     std::shared_ptr<Buffer<Triangle, Vertex>> vertex_buffer;
     std::shared_ptr<Shader> shader;
 
-    void set_proj_matrix(float l, float r, float b, float t, float n, float f) const;
+    void set_proj_matrix(float aspect) const;
     void generate_triangle_vertices();
     void opengl_draw() const;
     void fade_triangles() const;
